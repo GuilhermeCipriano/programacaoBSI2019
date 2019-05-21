@@ -68,20 +68,12 @@ def encontra_caracter(texto, caracter_procurado):
             return posicao
         else:
             posicao += 1
-
+    return -1
 def é_sortudo(numero):
     '''um número é sortudo se ele contém o dígito 2 mas não o dígito 7.'''
 
-    numerostring = str(numero)
-
-    numeroSplit = numerostring.split()
-
-    for numeros in numeroSplit:
-        if numeros == '7' or numeros == '2':
-            return True
-        else:
-            return False
-
+    numero= str(numero)
+    return "2" in numero and "7" not in numero
 
 
 def numeros_sortudos(limite_inferior=1, limite_superior=100000):
@@ -91,29 +83,72 @@ def numeros_sortudos(limite_inferior=1, limite_superior=100000):
     existem entre um intervalo dado, incluindo os extremos.
     Por exemplo: entre 18644 e 33087, existem 7995 números sortudos.
     Dica: faça uma função de validação e outra que a chama e 
-    verifica o intervalo dado
-    '''
+    verifica o intervalo dado'''
+
+    contador = 0
+
+
+
+    for numeros in range(limite_inferior, limite_superior+1):
+        numeros = str(numeros)
+        if "2" in numeros and "7" not in numeros:
+            contador += 1
+
+    return contador
 
 
 def é_azarado(numero):
     '''O último dígito não pode ser igual ao primeiro, porque isso dá azar
     '''
+    numero = str(numero)
+
+    return numero[0] == numero[-1]
+    # MEU DEUS FIZ ESSE CÓDIGO SOZINHO EM DUAS LINHAS E DEU CERTO PQP
 
 
 def soma_é_par(numero):
     '''A soma dos dígitos tem que ser par, porque isso é legal;
     '''
+    numero = str(numero)
+    soma = 0
+    for digitos in numero:
+        digitos = int(digitos)
+        soma += digitos
+
+    if soma % 2 == 0:
+        return True
+    else:
+        return False
+
 
 
 def é_chato(numero):
     '''Não pode haver dois dígitos consecutivos idênticos, porque isso é chato.'''
+    numero = str(numero)
+    anterior = None
+    for digito in numero:
+        if digito == anterior:
+            return True
+        anterior = digito
+    return False
 
 
 def é_número_válido(numero):
     '''Um número é válido se não é azarado, a soma é par e não é chato.'''
 
+    azarado = é_azarado(numero)
+    par = soma_é_par(numero)
+    chato = é_chato(numero)
+
+    if azarado == False and par == True and chato == False:
+        return True
+    else:
+        return False
+
+
 
 def ponteironuloville(telefones):
+
     '''Na pacata vila campestre de Ponteironuloville, todos os telefones 
     têm 6 dígitos. A companhia telefônica estabelece as seguintes regras 
     sobre os números:
@@ -157,6 +192,12 @@ def ponteironuloville(telefones):
         Resposta: 39 
     '''
 
+    soma = 0
+    for telefone in telefones:
+        if é_número_válido(telefone):
+            soma += 1
+
+    return soma
 
 # Área de testes: só mexa aqui se souber o que está fazendo!
 acertos = 0
